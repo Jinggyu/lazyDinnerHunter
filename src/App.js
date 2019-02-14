@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
 import './App.css';
 import VideoRow from './VideoRow.js';
-//import $ from "jquery";
 import YTSearch from 'youtube-api-search';
-
 
 const parallax = document.getElementsByClassName("titleBar");
 window.addEventListener("scroll", function () {
@@ -35,7 +32,6 @@ window.onscroll = function () {
     document.getElementById("search").style.background = "#66ffcc";
   }
 }
-
 
 class App extends Component {
 
@@ -79,13 +75,12 @@ class App extends Component {
   }
 
 
-  // enterPressed(event) {
-  //   var code = event.keyCode || event.which;
-  //   console.log(event.keycode)
-  //   if (code === 13) {
-  //     this.clickSearch()
-  //   }
-  // }
+  enterPressed(event) {
+    if (event.keyCode === 13) {
+      this.clickSearch()
+      console.log("seach the video, please wait...")
+    }
+  }
 
   render() {
     return (
@@ -105,7 +100,7 @@ class App extends Component {
 
         <div className="searchSection">
           <div id="search">
-            <input id="searchI" onChange={this.searchChangeHandler.bind(this)} placeholder="Hungry? Search for bimbimbap recipes…" />
+            <input id="searchI" onChange={this.searchChangeHandler.bind(this)} placeholder="Hungry? Search for bimbimbap recipes…" onKeyDown={this.enterPressed.bind(this)} />
             <img id="searchB" alt="search" width="2.5%" src="button2.png" onClick={this.clickSearch.bind(this)} />
           </div>
 
