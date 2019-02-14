@@ -5,6 +5,7 @@ import VideoRow from './VideoRow.js';
 //import $ from "jquery";
 import YTSearch from 'youtube-api-search';
 
+
 const parallax = document.getElementsByClassName("titleBar");
 window.addEventListener("scroll", function () {
   let offset = window.pageYOffset;
@@ -15,6 +16,25 @@ window.addEventListener("scroll", function () {
 )
 
 const API_KEY = "AIzaSyBiXr9e2ydFS7Ion9XB8Qew5qDaDJ_H4CY";
+let prevScrollpos = window.pageYOffset;
+
+window.onscroll = function () {
+  const currentScrollPos = window.pageYOffset;
+  console.log(currentScrollPos);
+  if (currentScrollPos < 702) {
+    document.getElementById("search").style.position = "relative";
+  } else {
+    document.getElementById("search").style.position = "fixed";
+  }
+  prevScrollpos = currentScrollPos;
+
+  if (currentScrollPos > 1325) {
+    // document.getElementById("search").style.background = "#ccccff";
+    document.getElementById("search").style.background = "#E3F9EE";
+  } else {
+    document.getElementById("search").style.background = "#66ffcc";
+  }
+}
 
 
 class App extends Component {
@@ -25,6 +45,7 @@ class App extends Component {
   }
 
   searchYT(term) {
+
     YTSearch({ key: API_KEY, term }, videos => {
       var videoRows = []
       var Parity
@@ -43,15 +64,28 @@ class App extends Component {
     })
   }
 
+
   searchChangeHandler(event) {
     const searchTerm = event.target.value + " recipe"
     this.setState({ input: searchTerm })
   }
 
   clickSearch() {
+    setTimeout(function () {
+      document.body.scrollTop = 1382;
+      document.documentElement.scrollTop = 1382;
+    }, 2000)
     this.searchYT(this.state.input)
   }
 
+
+  // enterPressed(event) {
+  //   var code = event.keyCode || event.which;
+  //   console.log(event.keycode)
+  //   if (code === 13) {
+  //     this.clickSearch()
+  //   }
+  // }
 
   render() {
     return (
@@ -67,30 +101,35 @@ class App extends Component {
             </div>
           </h3>
         </div>
-        {/* search Div */}
-        <div className="youtubeSection">
+
+
+        <div className="searchSection">
           <div id="search">
             <input id="searchI" onChange={this.searchChangeHandler.bind(this)} placeholder="Hungry? Search for bimbimbap recipes…" />
-            <img id="searchB" alt="search" width="10%" src="button.png" onClick={this.clickSearch.bind(this)} />
+            <img id="searchB" alt="search" width="2.5%" src="button2.png" onClick={this.clickSearch.bind(this)} />
           </div>
-          <div className="searchSection">
-            <table className="table1">
-              <tbody>
-                <tr>
-                  <th> <img alt="forks" width="55%" src="1.png" /></th>
-                  <th><img alt="spice" width="55%" src="2.png" /></th>
-                  <th><img alt="pie" width="55%" src="3.gif" /></th>
-                </tr>
-                <tr>
-                  <td><img alt="poo" width="55%" src="4.gif" /></td>
-                  <td><img alt="egg" width="55%" src="5.png" /></td>
-                  <td><img alt="greens" width="55%" src="6.png" /></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          {/* youtube playback Div */}
 
+
+
+          <table className="table1">
+            <tbody>
+              <tr>
+                <th> <img alt="forks" width="55%" src="1.png" /></th>
+                <th><img alt="spice" width="55%" src="2.png" /></th>
+                <th><img alt="pie" width="55%" src="3.gif" /></th>
+              </tr>
+              <tr>
+                <td><img alt="poo" width="55%" src="4.gif" /></td>
+                <td><img alt="egg" width="55%" src="5.png" /></td>
+                <td><img alt="greens" width="55%" src="6.png" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+        {/* youtube playback Div */}
+        <div className="youtubeSection">
           <div id="vids">
             {this.state.rows}
           </div>
