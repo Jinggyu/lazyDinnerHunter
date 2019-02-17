@@ -6,8 +6,7 @@ import YTSearch from 'youtube-api-search';
 const parallax = document.getElementsByClassName("titleBar");
 window.addEventListener("scroll", function () {
   let offset = window.pageYOffset;
-  // console.log(parallax);
-  parallax[0].style.backgroundPositionY = offset * 0.3 + "px";
+  parallax[0].style.backgroundPositionY = 50 + offset * 0.3 + "px";
   parallax[0].style.backgroundSize = 65 + offset * 0.2 + "%";
 }
 )
@@ -18,10 +17,12 @@ let prevScrollpos = window.pageYOffset;
 window.onscroll = function () {
   const currentScrollPos = window.pageYOffset;
   console.log(currentScrollPos);
-  if (currentScrollPos < 702) {
+  if (currentScrollPos < 1262) {
     document.getElementById("search").style.position = "relative";
+    document.getElementById("search").style.top = "540px";
   } else {
     document.getElementById("search").style.position = "fixed";
+    document.getElementById("search").style.top = "0px";
   }
   prevScrollpos = currentScrollPos;
 
@@ -29,7 +30,7 @@ window.onscroll = function () {
     // document.getElementById("search").style.background = "#ccccff";
     document.getElementById("search").style.background = "#E3F9EE";
   } else {
-    document.getElementById("search").style.background = "#66ffcc";
+    document.getElementById("search").style.background = "transparent";
   }
 }
 
@@ -46,7 +47,6 @@ class App extends Component {
       var videoRows = []
       var Parity
       videos.forEach((video, index) => {
-        // console.log(video)  
         if (index % 2) {
           Parity = "odd";
         } else {
@@ -78,7 +78,7 @@ class App extends Component {
   enterPressed(event) {
     if (event.keyCode === 13) {
       this.clickSearch()
-      console.log("seach the video, please wait...")
+      console.log("seach videos, please wait...")
     }
   }
 
@@ -88,19 +88,20 @@ class App extends Component {
         {/* title Div */}
         <div className="titleBar" >
           <div id="boy">
-            <img alt="boy" width="65%" src="path.svg" />
+            <img alt="sushi" width="75%" src="aaa.gif" />
           </div>
-          <h3>I am huuuuungggry
-            <div id="arrow">
-              <img alt="arrow" width="13%" src="arrow.gif" />
-            </div>
-          </h3>
+          {/* <h3>I am huuuuungggry */}
+          {/* <h3> */}
+          <div id="arrow">
+            <img alt="arrow" width="17%" src="arrow.gif" />
+          </div>
+          {/* </h3> */}
         </div>
 
 
         <div className="searchSection">
           <div id="search">
-            <input id="searchI" onChange={this.searchChangeHandler.bind(this)} placeholder="Hungry? Search for bimbimbap recipes…" onKeyDown={this.enterPressed.bind(this)} />
+            <input id="searchI" onChange={this.searchChangeHandler.bind(this)} placeholder="" onKeyDown={this.enterPressed.bind(this)} />
             <img id="searchB" alt="search" width="2.5%" src="button2.png" onClick={this.clickSearch.bind(this)} />
           </div>
 
