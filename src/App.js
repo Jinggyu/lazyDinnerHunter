@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import VideoRow from './VideoRow.js';
 import YTSearch from 'youtube-api-search';
+const API_KEY = "AIzaSyBiXr9e2ydFS7Ion9XB8Qew5qDaDJ_H4CY";
+let prevScrollpos = window.pageYOffset;
 
 const parallax = document.getElementsByClassName("titleBar");
 window.addEventListener("scroll", function () {
@@ -11,26 +13,60 @@ window.addEventListener("scroll", function () {
 }
 )
 
-const API_KEY = "AIzaSyBiXr9e2ydFS7Ion9XB8Qew5qDaDJ_H4CY";
-let prevScrollpos = window.pageYOffset;
-
 window.onscroll = function () {
+
   const currentScrollPos = window.pageYOffset;
-  console.log(currentScrollPos);
   if (currentScrollPos < 1262) {
     document.getElementById("search").style.position = "relative";
     document.getElementById("search").style.top = "540px";
+    document.getElementById("search").style.visibility = "visible";
   } else {
     document.getElementById("search").style.position = "fixed";
     document.getElementById("search").style.top = "0px";
   }
-  prevScrollpos = currentScrollPos;
+
+  //*******************Set conditional states******************
+
+  //** if scroll upper than Y1325: ****************************
+  //******** -  transparent background ************************
+  //** if scroll lower than Y1325: ****************************
+  //******** -  background color change ***********************
+  //******** if not close the search bar: *********************
+  //************  - the close icon is visible *****************
+  //******** if close the search bar: *************************
+  //************  if scroll down: *****************************
+  //*****************  - make the search bar hidden ***********
+  //************  if scroll up: *******************************
+  //*****************  if scroll upper than Y1856: ************
+  //********************** - show the search bar **************
+  //*****************  if scroll up not reach Y1856: **********
+  //********************** - keep search bar hidden ***********
 
   if (currentScrollPos > 1325) {
-    // document.getElementById("search").style.background = "#ccccff";
+    // console.log("c" + currentScrollPos);
+    // console.log("p" + prevScrollpos);
     document.getElementById("search").style.background = "#E3F9EE";
+    // document.getElementById("search").style.background = "#ccccff";
+
+    if (document.getElementById("search").style.visibility === "visible") {
+      document.getElementById("close").style.visibility = "visible";
+    } else {
+      if (prevScrollpos < currentScrollPos) {
+        document.getElementById("close").style.visibility = "hidden";
+        document.getElementById("search").style.visibility = "hidden";
+      } else {
+        if (currentScrollPos < 1856) {
+          document.getElementById("close").style.visibility = "visible";
+          document.getElementById("search").style.visibility = "visible";
+        } else {
+          document.getElementById("close").style.visibility = "hidden";
+        }
+      }
+    }
+    prevScrollpos = currentScrollPos;
   } else {
     document.getElementById("search").style.background = "transparent";
+    document.getElementById("close").style.visibility = "hidden";
   }
 }
 
@@ -74,7 +110,6 @@ class App extends Component {
     this.searchYT(this.state.input)
   }
 
-
   enterPressed(event) {
     if (event.keyCode === 13) {
       this.clickSearch()
@@ -82,31 +117,40 @@ class App extends Component {
     }
   }
 
+  scrollTo() {
+    document.body.scrollTop = 705;
+    document.documentElement.scrollTop = 705;
+  }
+
+  closefunc() {
+    document.getElementById("search").style.visibility = "hidden";
+    document.getElementById("close").style.visibility = "hidden";
+  }
+
   render() {
     return (
       <div className="col">
+
         {/* title Div */}
         <div className="titleBar" >
           <div id="boy">
-            <img alt="sushi" width="75%" src="aaa.gif" />
+            <img alt="sushi" width="75%" src="imhungry.gif" />
           </div>
-          {/* <h3>I am huuuuungggry */}
-          {/* <h3> */}
           <div id="arrow">
-            <img alt="arrow" width="17%" src="arrow.gif" />
+            <img alt="arrow" width="17%" src="arrow.gif" onClick={this.scrollTo.bind(this)} />
           </div>
-          {/* </h3> */}
         </div>
 
-
+        {/* floating search bar */}
         <div className="searchSection">
           <div id="search">
-            <input id="searchI" onChange={this.searchChangeHandler.bind(this)} placeholder="" onKeyDown={this.enterPressed.bind(this)} />
+            <input id="searchI" onChange={this.searchChangeHandler.bind(this)} placeholder="hungry? search for bibimbap here......" onKeyDown={this.enterPressed.bind(this)} />
             <img id="searchB" alt="search" width="2.5%" src="button2.png" onClick={this.clickSearch.bind(this)} />
+            <img id="close" alt="close" width="1.3%" src="close1.png" onClick={this.closefunc.bind(this)} />
           </div>
 
 
-
+          {/* dish table */}
           <table className="table1">
             <tbody>
               <tr>
@@ -130,7 +174,6 @@ class App extends Component {
             {this.state.rows}
           </div>
         </div>
-
       </div >
     );
   }
