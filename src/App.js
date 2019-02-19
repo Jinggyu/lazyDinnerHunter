@@ -13,6 +13,26 @@ window.addEventListener("scroll", function () {
 }
 )
 
+// |+++++++++++++++++++++++++++++++++++++++++++++++|
+// |+************Set conditional states***********+|
+// |+++++++++++++++++++++++++++++++++++++++++++++++|
+//   ______________________________________________    
+//   |if scroll upper than Y1325: ****************|
+//   |**** -  transparent background *************|
+//   |if scroll lower than Y1325: ****************|
+//   |**** -  background color change ************|
+//   |**** if not close the search bar: **********|
+//   |********  - the close icon is visible ******|
+//   |**** if close the search bar: **************|
+//   |********  if scroll down: ******************|
+//   |*************  - make the search bar hidden |
+//   |********  if scroll up: ********************|
+//   |*************  if scroll upper than Y1856: *|
+//   |****************** - show the search bar ***|
+//   |*************  if scroll up not reach Y1856:|
+//   |****************** - keep search bar hidden |
+//   ++++++++++++++++++++++++++++++++++++++++++++++
+
 window.onscroll = function () {
 
   const currentScrollPos = window.pageYOffset;
@@ -24,23 +44,6 @@ window.onscroll = function () {
     document.getElementById("search").style.position = "fixed";
     document.getElementById("search").style.top = "0px";
   }
-
-  //*******************Set conditional states******************
-
-  //** if scroll upper than Y1325: ****************************
-  //******** -  transparent background ************************
-  //** if scroll lower than Y1325: ****************************
-  //******** -  background color change ***********************
-  //******** if not close the search bar: *********************
-  //************  - the close icon is visible *****************
-  //******** if close the search bar: *************************
-  //************  if scroll down: *****************************
-  //*****************  - make the search bar hidden ***********
-  //************  if scroll up: *******************************
-  //*****************  if scroll upper than Y1856: ************
-  //********************** - show the search bar **************
-  //*****************  if scroll up not reach Y1856: **********
-  //********************** - keep search bar hidden ***********
 
   if (currentScrollPos > 1325) {
     // console.log("c" + currentScrollPos);
