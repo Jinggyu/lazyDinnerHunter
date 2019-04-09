@@ -1,1 +1,1 @@
-# lazzyDinnerHunter
+# lazyDinnerHunter
